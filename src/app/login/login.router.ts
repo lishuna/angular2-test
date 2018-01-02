@@ -1,21 +1,20 @@
-// import { Routes, RouterModule } from '@angular/router';
-// import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-// import { LoginComponent } from './login/login.component';
+import { WebSiteDescComponent } from './website-desc/websitedesc.component';
 
-// const routes: Routes = [
-//     { path: 'login', component: LoginComponent },
-//     { path: '**', component: LoginComponent },
+const routes: Routes = [
+    { path: 'webSiteDesc', component: WebSiteDescComponent }
 
-//     //{ path: 'path/:routeParam', component: MyComponent },
-//     //{ path: 'staticPath', component: ... },
-//     //{ path: '**', component: ... },
-//     //{ path: 'oldPath', redirectTo: '/staticPath' },
-//     //{ path: ..., component: ..., data: { message: 'Custom' }
-// ];
+    //{ path: 'path/:routeParam', component: MyComponent },
+    //{ path: 'staticPath', component: ... },
+    //{ path: '**', component: ... },
+    //{ path: 'oldPath', redirectTo: '/staticPath' },
+    //{ path: ..., component: ..., data: { message: 'Custom' }
+];
 
-// @NgModule({
-//     imports: [RouterModule.forRoot(routes)],
-//     exports: [RouterModule]
-// })
-// export class AppRoutingModule {}
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+})
+export class AWebSiteDescModule {}
