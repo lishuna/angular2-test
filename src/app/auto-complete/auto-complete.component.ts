@@ -1,0 +1,83 @@
+import { 
+    Input,
+    Output,
+    Component, 
+    EventEmitter,
+    HostListener
+  } from '@angular/core';
+  
+  import { SearchService } from "./search.service";
+  import { IAutoCompleteResult } from "./auto-complete-results.interface";
+
+  @Component({
+    selector: 'ng4-autocomplete-textbox',
+    template: `
+    <div>
+        <input
+            [name]="inputName"
+            [id]="inputID"
+            [value]="modelProperty"
+            class="form-control"
+            [placeholder]="placeHolder"
+            appAutocompleteTextbox
+            ngModel
+            [(searchString)]="modelProperty"
+            [searchParamName]="searchParamName"
+            [apiMethodURI]="apiMethodURI"
+            (dataReady)="onDataReady($event)"/>
+        <div 
+            *ngIf="showList"
+            class="list-container">
+            <div
+            class="list-item" 
+            *ngFor="let item of items">
+            <div (click)="onItemSelected(item)">{{item.value}}</div>
+        </div> 
+    </div>`,
+    styles: [`.list-container {
+        left: 10;
+        // top: 100%;
+        width: 93%;
+        z-index: 1000;
+        position: absolute;
+        border-left: 1px solid #428bca;
+        border-right: 1px solid #428bca;
+        border-bottom: 1px solid #428bca;
+    }
+    `]
+  })
+  export class AutoCompleteComponent {
+    @Input() inputID: string;
+    @Input() inputName: string;
+    @Input() placeHolder: string;
+    @Input() minLength: number = 0;
+    @Input() modelProperty: string = '';
+    @Input('apiMethodURI') apiMethodURI: string = '';  
+    @Input('searchParamName') searchParamName: string = '';
+    @Output() onSelected: EventEmitter<IAutoCompleteResult> = new EventEmitter<IAutoCompleteResult>();
+  
+    @HostListener('mouseenter')  onmouseEnter() {
+      this.showList = true;
+    }
+  
+    @HostListener('mouseleave')  onmouseLeave() {
+      this.showList = false; 
+    }
+  
+    items: IAutoCompleteResult[] = []; 
+    showList: boolean = false;
+  
+    constructor() { }
+  
+    onDataReady(data: IAutoCompleteResult[]) {
+      this.items = data;
+      this.showList = data.length > 0;
+    }
+  
+    onItemSelected(selectedItem: IAutoCompleteResult) {
+      this.showList = false;
+      this.modelProperty = '';
+      this.onSelected.emit(selectedItem);
+    }
+  
+  }
